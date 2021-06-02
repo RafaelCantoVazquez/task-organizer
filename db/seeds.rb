@@ -26,7 +26,7 @@
     
       
     
-    owner = User.find_by(email: 'johan@platzi.com')
+    user = User.find_by(email: 'johan@platzi.com')
     
     [
     
@@ -116,7 +116,7 @@
     
     due_date: Date.today + 15.days,
     
-    owner: owner,
+    user: user,
     
     participating_users: participants
     
