@@ -9,12 +9,15 @@
 #  category_id :bigint           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  user_id     :bigint           not null
+#  code        :string
 #
 class Task < ApplicationRecord
   belongs_to :category
   belongs_to :user
   has_many :participating_users, class_name: 'Participant'
   has_many :participants, through: :participating_users, source: :user
+  has_many :notes
 
   validates :participating_users, presence: true
 
@@ -22,9 +25,25 @@ class Task < ApplicationRecord
   validates :name, uniqueness: { case_sensitive: false }
   validate :due_date_validity
 
+  before_create :create_code
+  after_create :send_email
+
+  accepts_nested_attributes_for :participating_users, allow_destroy: true
+
   def due_date_validity
     return if due_date.blank?
     return if due_date > Date.today
     errors.add :due_date, I18n.t('task.errors.invalid_due_date')
+  end
+
+  def create_code
+    self.code = "#{user_id}#{Time.now.to_i.to_s(36)}#{SecureRandom.hex(8)}"
+  end
+
+  def send_email
+    return unless Rails.env.development?
+    (participants + [user]).each do |user| 
+      ParticipantMailer.with(user: user, task: self).new_task_email.deliver!
+    end
   end
 end

@@ -26,6 +26,9 @@ gem 'simple_form'
 gem 'annotate'
 gem 'rails-i18n'
 gem 'devise'
+gem 'cocoon'
+gem 'cancancan'
+gem 'font-awesome-sass', '~> 5.12.0'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
@@ -47,6 +50,14 @@ group :development do
   # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
   gem 'rack-mini-profiler', '~> 2.0'
   gem 'hamlit-rails'
+  gem 'letter_opener'
+end
+
+
+group :production do
+
+  gem 'rails_12factor'
+
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

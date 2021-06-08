@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_25_163804) do
+ActiveRecord::Schema.define(version: 2021_06_04_024155) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "adminpack"
@@ -23,6 +23,26 @@ ActiveRecord::Schema.define(version: 2021_05_25_163804) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "notes", force: :cascade do |t|
+    t.text "body"
+    t.bigint "user_id", null: false
+    t.bigint "task_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["task_id"], name: "index_notes_on_task_id"
+    t.index ["user_id"], name: "index_notes_on_user_id"
+  end
+
+  create_table "participants", force: :cascade do |t|
+    t.integer "role"
+    t.bigint "user_id", null: false
+    t.bigint "task_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["task_id"], name: "index_participants_on_task_id"
+    t.index ["user_id"], name: "index_participants_on_user_id"
+  end
+
   create_table "tasks", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -31,6 +51,7 @@ ActiveRecord::Schema.define(version: 2021_05_25_163804) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id", null: false
+    t.string "code"
     t.index ["category_id"], name: "index_tasks_on_category_id"
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end
@@ -47,6 +68,10 @@ ActiveRecord::Schema.define(version: 2021_05_25_163804) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "notes", "tasks"
+  add_foreign_key "notes", "users"
+  add_foreign_key "participants", "tasks"
+  add_foreign_key "participants", "users"
   add_foreign_key "tasks", "categories"
   add_foreign_key "tasks", "users"
 end
