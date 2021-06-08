@@ -8,10 +8,10 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
-import "bootstrap"
-import "roboto-fontface"
+import 'bootstrap'
+import 'roboto-fontface'
 import 'cocoon'
-import "../src/stylesheets/application"
+import '../stylesheets/application'
 
 Rails.start()
 Turbolinks.start()
