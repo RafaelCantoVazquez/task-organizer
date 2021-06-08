@@ -23,7 +23,7 @@
 										= image_tag "https://robohash.org/#{participant.user.email}?size=60x60", title: participant.user.email
 							.task-actions
 								.dropdown
-									%a#taskMenu{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown"}
+									%a#taskMenu{"type"=>"button", "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown"}
 										.fas.fa-ellipsis-v
 									.dropdown-menu{"aria-labelledby" => "taskMenu"}
 										= link_to t('common.show'), task, class: 'dropdown-item'
